@@ -1,27 +1,30 @@
-// A struct for each infected person
+// Necessary Headers
 
+// Necessary function definitions
 
-#include <iostream>
+// A struct for a person
+    // Contains name
+    // Age
+    // Infected or not
 
-#include <map>
-#include <list>
+// A region
+    // Is it quarantined?
+    // Are people wearing masks?
 
-using namespace std;
+// A struct for every area containing people
 
-struct Person
-{
-    /* data */
-};
+// A map associating a region the amount of people
 
-struct Region
-{
-    /* data */
-};
+// function to start the infection
+    // A list of people are pulled from an external file including their region, age, name, etc
+    // An external file inputs information based on infections
+        // Pop density
+        // Where the infection is started
+        // Are people wearing masks
+        // Are people quarantining
 
-map<string, Region> regions;
+// function to simulate infection spread in a specific region
+    // Uses pop density/people wearing masks/people quarantining/already infected
+    // To determine how many people are infected or cured
 
-
-int main(int argc, char const *argv[])
-{
-    return 0;
-}
+// print a regionsStats
