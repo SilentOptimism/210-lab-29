@@ -3,7 +3,8 @@
 // A struct for a person
     // Contains name
     // Age
-    // Infected or not
+    // Infected?
+    // Vaccinated?
 
 // A region struct
     // A list of people belonging to the region
@@ -25,6 +26,10 @@
 // A function to simulate infection spread in a specific region
     // Uses pop density/people wearing masks/people quarantining/already infected
     // To determine how many people are infected or cured
+    // Determine time till vaccine
+
+// A function to simulate vaccine rollout
+    // Based on a wealth and popularity vaccine rollout will be different for each region
 
 // print a regionsStats
 
@@ -39,6 +44,8 @@
             // Every day print out the daily info in each region
                 // If enough people in a region get infected people wear masks
                 // If even more people in a region get infected people quarantine
+                // Eventually a vaccine will be developed
+                // If enough people are vacinated quarantine will end and region will be free
 // End main function
 
 
