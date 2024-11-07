@@ -1,4 +1,8 @@
+// A struct for each infected person
+
+
 #include <iostream>
+
 #include <map>
 #include <list>
 
@@ -14,9 +18,7 @@ struct Region
     /* data */
 };
 
-map<
-
-
+map<string, Region> regions;
 
 
 int main(int argc, char const *argv[])
