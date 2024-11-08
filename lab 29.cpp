@@ -16,7 +16,6 @@ enum health{
 
 struct person
 {
-    string region;
     string name;
     int age;
     health condition;
@@ -37,24 +36,33 @@ void makeRegion(string regionName){
     srand(time(NULL));
 
     ifstream fin;
-    ofstream fout;
-    string person;
 
     fin.open(regionName + "Census.txt");
     if(!fin){
         cout << "File open error" << endl;
         return;
     }
-    fout.open(regionName + "CensusUpdated.txt");
 
+    string firstName;
+    string lastName;
+    int age;
+    string condition;
+    string vaccinated;
 
-    while (fin){
-        getline(fin, person);
-        fout << regionName << " " << person << " " << rand() << " " << "Healthy False" << "\n";
+    while (!fin){
+        fin >> firstName;
+        cout << firstName;
+        fin >> lastName;
+        cout << lastName;
+        fin >> age;
+        cout << age;
+        fin >> condition;
+        cout << condition;
+        fin >> vaccinated;
+        cout << vaccinated;
     }
 
     fin.close();
-    fout.close();
 }
 
 // A function to start the infection
@@ -90,7 +98,6 @@ void print(){
 // Define a main function
 int main(int argc, char const *argv[])
 {
-    makeRegion("ElysiaCensus");
     /* code */
     return 0;
 }
