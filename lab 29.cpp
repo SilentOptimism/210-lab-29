@@ -24,37 +24,35 @@ struct person
 
 struct region
 {
-    list<person> population;
+    list<person> residents;
     double GDP;
+    int population = 0;
+    int infected;
+    int dead;
     bool quarantined;
     bool masks;
 };
 
 map<string, region> populationCenters;
 
-void makeRegion(string regionName){
+region makeRegion(string regionName){
     srand(time(NULL));
 
     ifstream fin;
-
     fin.open(regionName + "Census.txt");
-    if(!fin){
-        cout << "File open error" << endl;
-        return;
-    }
-
+    if(!fin) {cout << "File open error" << endl; return;}
     string firstName;
     string lastName;
     int age;
     string condition;
     string vaccinated;
 
-    region place;
+    region location;
+    location.masks = false;
+    location.quarantined = false;
 
     while (fin){
         person resident;
-
-
         fin >> firstName;
         fin >> lastName;
         fin >> age;
@@ -72,10 +70,13 @@ void makeRegion(string regionName){
         if(vaccinated == "False") {resident.vaccinated = false;}
         else {resident.vaccinated = true;}
 
-
+        location.population++;
+        location.residents.push_back(resident);
     }
 
     fin.close();
+
+    return location;
 }
 
 // A function to start the infection
