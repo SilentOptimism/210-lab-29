@@ -34,10 +34,27 @@ struct region
 map<string, region> populationCenters;
 
 void makeRegion(string regionName){
-    fstream fin;
+    srand(time(NULL));
+
+    ifstream fin;
+    ofstream fout;
+    string person;
+
     fin.open(regionName + "Census.txt");
+    if(!fin){
+        cout << "File open error" << endl;
+        return;
+    }
+    fout.open(regionName + "CensusUpdated.txt");
 
 
+    while (fin){
+        getline(fin, person);
+        fout << regionName << " " << person << " " << rand() << " " << "Healthy False" << "\n";
+    }
+
+    fin.close();
+    fout.close();
 }
 
 // A function to start the infection
@@ -73,6 +90,7 @@ void print(){
 // Define a main function
 int main(int argc, char const *argv[])
 {
+    makeRegion("ElysiaCensus");
     /* code */
     return 0;
 }
