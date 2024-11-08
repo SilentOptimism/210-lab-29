@@ -11,7 +11,7 @@ enum health{
     Healthy, // Hasn't been infected
     Infected, // Is infected
     Recovered, // Was infected now has recovered
-    Dead
+    Dead // Sucumb to disease
 };
 
 struct person
@@ -19,7 +19,7 @@ struct person
     string region;
     string name;
     int age;
-    health ;
+    health condition;
     bool vaccinated; // if true person is vacinated
 };
 
@@ -31,11 +31,14 @@ struct region
     bool masks;
 };
 
-
-
-// Necessary function definitions
-
 map<string, region> populationCenters;
+
+void makeRegion(string regionName){
+    fstream fin;
+    fin.open(regionName + "Census.txt");
+
+
+}
 
 // A function to start the infection
     // Each region's population file is open and has their region populated with people
@@ -44,7 +47,6 @@ map<string, region> populationCenters;
         // Where the infection is started
         // Are people wearing masks
         // Are people quarantining
-
 void infectionBegin(){
     
 }
