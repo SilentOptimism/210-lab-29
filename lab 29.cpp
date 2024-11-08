@@ -1,19 +1,38 @@
 // Necessary Headers for file handling, data structure, time, etc.
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <map>
+#include <list>
 
-// A struct for a person
-    // Contains name
-    // Age
-    // Infected?
-    // Vaccinated?
+using namespace std;
 
-// A region struct
-    // A list of people belonging to the region
-    // Is it quarantined?
-    // Are people wearing masks?
+
+struct person
+{
+    string region;
+    string name;
+    int age;
+    bool infected;
+    bool vaccinated;
+};
+
+struct region
+{
+    list<person> population;
+    bool quarantined;
+    bool masks;
+};
+
+
 
 // Necessary function definitions
 
-// A map associating a region the amount of people
+map<region, int> populationCenters;
+
+void infectionBegin(){
+    
+}
 
 // A function to start the infection
     // Each region's population file is open and has their region populated with people
