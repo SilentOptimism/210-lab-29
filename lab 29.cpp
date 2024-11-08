@@ -7,19 +7,26 @@
 
 using namespace std;
 
+enum health{
+    Healthy, // Hasn't been infected
+    Infected, // Is infected
+    Recovered, // Was infected now has recovered
+    Dead
+};
 
 struct person
 {
     string region;
     string name;
     int age;
-    bool infected;
-    bool vaccinated;
+    health ;
+    bool vaccinated; // if true person is vacinated
 };
 
 struct region
 {
     list<person> population;
+    double GDP;
     bool quarantined;
     bool masks;
 };
@@ -28,11 +35,7 @@ struct region
 
 // Necessary function definitions
 
-map<region, int> populationCenters;
-
-void infectionBegin(){
-    
-}
+map<string, region> populationCenters;
 
 // A function to start the infection
     // Each region's population file is open and has their region populated with people
@@ -42,17 +45,36 @@ void infectionBegin(){
         // Are people wearing masks
         // Are people quarantining
 
+void infectionBegin(){
+    
+}
+
 // A function to simulate infection spread in a specific region
     // Uses pop density/people wearing masks/people quarantining/already infected
     // To determine how many people are infected or cured
     // Determine time till vaccine
+void timepass(){
+
+}
 
 // A function to simulate vaccine rollout
     // Based on a wealth and popularity vaccine rollout will be different for each region
+void vaccineRollout(){
+
+}
 
 // print a regionsStats
+void print(){
+
+}
 
 // Define a main function
+int main(int argc, char const *argv[])
+{
+    /* code */
+    return 0;
+}
+
 
     // Initialize maps region
     // Initialize people to regions
