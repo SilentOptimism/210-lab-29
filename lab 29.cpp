@@ -49,17 +49,30 @@ void makeRegion(string regionName){
     string condition;
     string vaccinated;
 
-    while (!fin){
+    region place;
+
+    while (fin){
+        person resident;
+
+
         fin >> firstName;
-        cout << firstName;
         fin >> lastName;
-        cout << lastName;
         fin >> age;
-        cout << age;
         fin >> condition;
-        cout << condition;
         fin >> vaccinated;
-        cout << vaccinated;
+
+        resident.name = firstName + lastName;
+        resident.age = age;
+
+        if(condition == "Healthy") {resident.condition = Healthy;}
+        if(condition == "Infected") {resident.condition = Infected;}
+        if(condition == "Recovered") {resident.condition = Recovered;}
+        if(condition == "Dead") {resident.condition = Dead;}
+
+        if(vaccinated == "False") {resident.vaccinated = false;}
+        else {resident.vaccinated = true;}
+
+
     }
 
     fin.close();
@@ -98,7 +111,7 @@ void print(){
 // Define a main function
 int main(int argc, char const *argv[])
 {
-    /* code */
+    makeRegion("Nova");
     return 0;
 }
 
