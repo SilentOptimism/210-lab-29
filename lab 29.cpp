@@ -7,7 +7,7 @@
 #include <chrono>
 
 using namespace std;
-using namespace std::chrono;
+using namespace chrono;
 
 int day = 0;
 
@@ -139,7 +139,17 @@ int main(int argc, char const *argv[])
     regions["Nova"] = populate_region("Nova");
     regions["Zephyr"] = populate_region("Zephyr");
 
-    auto start = high_resolution_clock::now();
+
+    auto start = chrono::high_resolution_clock::now();
+    while(true){
+        auto now = chrono::high_resolution_clock::now();
+
+        if(duration_cast<seconds>(now - start))
+
+    }
+
+
+    }
 
 
 
