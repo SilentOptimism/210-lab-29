@@ -135,10 +135,13 @@ void vaccineRollout(){
     map<string,region>::iterator end = regions.end();
 
     while(end != current){
-        region place = current->second;
+        region &place = current->second; 
 
         for(person& individual: place.residents){
             if(rand()%10<5){
+                if(individual.vaccinated == false){
+                    place.vaccinated++;
+                }
                 individual.vaccinated = true;
             }
         }
