@@ -25,17 +25,18 @@ struct person
     int age;
     health condition;
     bool vaccinated; // if true person is vacinated
+    int timeInfected;
 };
 
 struct region
 {
     list<person> residents;
     double GDP;
-    int population;
-    int infected;
-    int dead;
-    int vaccinated;
-    bool quarantined;
+    int population = 0;
+    int infected = 0;
+    int dead = 0;
+    int vaccinated = 0;
+    bool quarantined = 0;
     bool masks;
 };
 
@@ -99,10 +100,24 @@ void spread_infection(string regionName){
     region& place = regions[regionName];
 
     for(person& individual: place.residents){
+        if(individual.timeInfected >= 14){
+            individual.condition = Recovered;
+        }
+        if(individual.condition == Infected){
+            individual.timeInfected++;
+        }
+
         if(individual.vaccinated == true){}
+        else if(individual.condition == Recovered){
+            if(rand()%200 < 1){
+                individual.condition = Infected;
+                place.infected++;
+            }
+        }
         else if(rand()%50 < 1){ 
             if(individual.condition == Infected) {
                 individual.condition = Dead;
+                place.infected--;
                 place.dead++;
             }
             else {
@@ -121,7 +136,7 @@ void vaccineRollout(){
 
 // print a regionsStats
 void print(){
-    int width = 10;
+    int width = 15;
     map<string,region>::iterator current = regions.begin();
     map<string,region>::iterator end = regions.end();
 
@@ -158,7 +173,7 @@ void print(){
         cout << setw(width);
 
         if(current->second.quarantined == true){ cout << "Qurantined";}
-        else {cout << "No Quarantine";}
+        else {cout << "None";}
         cout << setw(width);
 
         cout << current->second.masks;
@@ -184,9 +199,9 @@ int main(int argc, char const *argv[])
     while(true){
         time_point now = high_resolution_clock::now();
 
-        seconds duration = duration_cast<seconds>(now - start);
+        milliseconds duration = duration_cast<milliseconds>(now - start);
         
-        if(duration.count() > 5){
+        if(duration.count() > 500){
             start = high_resolution_clock::now();
             spread_infection("Aethria");
             spread_infection("Elysia");
@@ -196,26 +211,10 @@ int main(int argc, char const *argv[])
             if(day >= 180){
                 vaccineRollout();
             }
-            print();
             day++;
+            print();
         }
     }
 
     return 0;
 }
-
-
-    // Initialize maps region
-    // Initialize people to regions
-
-    // Begin a time based simulation for infections
-        // For 365 time intervals (1 day each interval)
-            // Run infections
-            // Every day print out the daily info in each region
-                // If enough people in a region get infected people wear masks
-                // If even more people in a region get infected people quarantine
-                // Eventually a vaccine will be developed
-                // If enough people are vacinated quarantine will end and region will be free
-// End main function
-
-

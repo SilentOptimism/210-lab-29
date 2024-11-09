@@ -1,0 +1,5 @@
+I created a series of different fictional nations. Populated a text file with fictional people, ages, etc.
+
+I did some unit testing to fill up a map of region structs which has a list of people.
+
+I than created a program to test out the population of each region. Printing of each region. Infecting of the people in each region.
