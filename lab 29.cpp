@@ -4,8 +4,10 @@
 #include <string>
 #include <map>
 #include <list>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 enum health{
     Healthy, // Hasn't been infected
@@ -26,28 +28,32 @@ struct region
 {
     list<person> residents;
     double GDP;
-    int population = 0;
+    int population;
     int infected;
     int dead;
     bool quarantined;
     bool masks;
 };
 
-map<string, region> populationCenters;
+map<string, region> regions;
 
-region makeRegion(string regionName){
+region populate_region(string regionName){
     srand(time(NULL));
+    region location;
 
     ifstream fin;
     fin.open(regionName + "Census.txt");
-    if(!fin) {cout << "File open error" << endl; return;}
+
+    if(!fin) {
+        cout << "File open error" << endl;
+    }
+
     string firstName;
     string lastName;
     int age;
     string condition;
     string vaccinated;
 
-    region location;
     location.masks = false;
     location.quarantined = false;
 
@@ -75,7 +81,6 @@ region makeRegion(string regionName){
     }
 
     fin.close();
-
     return location;
 }
 
@@ -86,7 +91,15 @@ region makeRegion(string regionName){
         // Where the infection is started
         // Are people wearing masks
         // Are people quarantining
-void infectionBegin(){
+void spread_infection(string regionName){
+    region place = regions[regionName];
+
+    for(person individual: place.residents){
+        if(individual.vaccinated == true){}
+
+    }
+
+
     
 }
 
@@ -112,7 +125,20 @@ void print(){
 // Define a main function
 int main(int argc, char const *argv[])
 {
-    makeRegion("Nova");
+    regions["Aethria"] = makeRegion("Nova");
+    regions["Elysia"] = makeRegion("Elysia");
+    regions["Kaelan"] = makeRegion("Kaelan");
+    regions["Nova"] = makeRegion("Nova");
+    regions["Zephyr"] = makeRegion("Zephyr");
+
+    cout << regions["Aethria"].population << endl;
+    cout << regions["Elysia"].population << endl;
+    cout << regions["Kaelan"].population << endl;
+    cout << regions["Nova"].population << endl;
+    cout << regions["Zephyr"].population << endl;
+
+
+
     return 0;
 }
 
