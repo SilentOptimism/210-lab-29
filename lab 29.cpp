@@ -9,6 +9,8 @@
 using namespace std;
 using namespace std::chrono;
 
+int day = 0;
+
 enum health{
     Healthy, // Hasn't been infected
     Infected, // Is infected
@@ -92,15 +94,21 @@ region populate_region(string regionName){
         // Are people wearing masks
         // Are people quarantining
 void spread_infection(string regionName){
-    region place = regions[regionName];
+    region& place = regions[regionName];
 
-    for(person individual: place.residents){
+    for(person& individual: place.residents){
         if(individual.vaccinated == true){}
-
+        else if(rand()%50 < 1){ 
+            if(individual.condition = Infected) {
+                individual.condition = Dead;
+                place.dead++;
+            }
+            else {
+                individual.condition = Infected;
+                place.infected++;
+            }
+        }
     }
-
-
-    
 }
 
 // A function to simulate infection spread in a specific region
@@ -125,11 +133,18 @@ void print(){
 // Define a main function
 int main(int argc, char const *argv[])
 {
-    regions["Aethria"] = makeRegion("Nova");
-    regions["Elysia"] = makeRegion("Elysia");
-    regions["Kaelan"] = makeRegion("Kaelan");
-    regions["Nova"] = makeRegion("Nova");
-    regions["Zephyr"] = makeRegion("Zephyr");
+    regions["Aethria"] = populate_region("Aethria");
+    regions["Elysia"] = populate_region("Elysia");
+    regions["Kaelan"] = populate_region("Kaelan");
+    regions["Nova"] = populate_region("Nova");
+    regions["Zephyr"] = populate_region("Zephyr");
+
+    auto start = high_resolution_clock::now();
+
+
+
+
+
 
     cout << regions["Aethria"].population << endl;
     cout << regions["Elysia"].population << endl;
