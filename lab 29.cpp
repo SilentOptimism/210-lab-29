@@ -127,7 +127,23 @@ void vaccineRollout(){
 
 // print a regionsStats
 void print(){
+    map<string,region>::iterator current = regions.begin();
+    map<string,region>::iterator end = regions.end();
 
+    cout << "Region Name";
+
+    cout << "Population";
+    cout << "Infected";
+    cout << "Recovered";
+    cout << "Quarantied"; 
+    cout << "Mask Wearing";
+
+    while(current != end){
+        cout << current->first;
+
+
+        current++;
+    }
 }
 
 // Define a main function
@@ -140,29 +156,27 @@ int main(int argc, char const *argv[])
     regions["Zephyr"] = populate_region("Zephyr");
 
 
-    auto start = chrono::high_resolution_clock::now();
+    time_point start = high_resolution_clock::now();
     while(true){
-        auto now = chrono::high_resolution_clock::now();
+        time_point now = high_resolution_clock::now();
 
-        if(duration_cast<seconds>(now - start))
+        seconds duration = duration_cast<seconds>(now - start);
+        
+        if(duration.count() > 10){
+            start = high_resolution_clock::now();
+            spread_infection("Aethria");
+            spread_infection("Elysia");
+            spread_infection("Kaelan");
+            spread_infection("Nova");
+            spread_infection("Zephyr");
+            if(day >= 180){
+                vaccineRollout();
+            }
 
+            day++;
+
+        }
     }
-
-
-    }
-
-
-
-
-
-
-    cout << regions["Aethria"].population << endl;
-    cout << regions["Elysia"].population << endl;
-    cout << regions["Kaelan"].population << endl;
-    cout << regions["Nova"].population << endl;
-    cout << regions["Zephyr"].population << endl;
-
-
 
     return 0;
 }
