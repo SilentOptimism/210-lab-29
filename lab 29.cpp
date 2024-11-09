@@ -5,6 +5,7 @@
 #include <map>
 #include <list>
 #include <chrono>
+#include <iomanip>
 
 using namespace std;
 using namespace chrono;
@@ -33,6 +34,7 @@ struct region
     int population;
     int infected;
     int dead;
+    int vaccinated;
     bool quarantined;
     bool masks;
 };
@@ -99,7 +101,7 @@ void spread_infection(string regionName){
     for(person& individual: place.residents){
         if(individual.vaccinated == true){}
         else if(rand()%50 < 1){ 
-            if(individual.condition = Infected) {
+            if(individual.condition == Infected) {
                 individual.condition = Dead;
                 place.dead++;
             }
@@ -111,14 +113,6 @@ void spread_infection(string regionName){
     }
 }
 
-// A function to simulate infection spread in a specific region
-    // Uses pop density/people wearing masks/people quarantining/already infected
-    // To determine how many people are infected or cured
-    // Determine time till vaccine
-void timepass(){
-
-}
-
 // A function to simulate vaccine rollout
     // Based on a wealth and popularity vaccine rollout will be different for each region
 void vaccineRollout(){
@@ -127,20 +121,48 @@ void vaccineRollout(){
 
 // print a regionsStats
 void print(){
+    int width = 10;
     map<string,region>::iterator current = regions.begin();
     map<string,region>::iterator end = regions.end();
 
+    cout << "Day " << day << endl;
+    cout << setw(width);
     cout << "Region Name";
-
+    cout << setw(width);
     cout << "Population";
+    cout << setw(width);
     cout << "Infected";
-    cout << "Recovered";
-    cout << "Quarantied"; 
+    cout << setw(width);
+    cout << "Dead"; 
+    cout << setw(width);
+    cout << "Vaccinated";
+    cout << setw(width);
+    cout << "Quarantine";
+    cout << setw(width);
     cout << "Mask Wearing";
 
-    while(current != end){
-        cout << current->first;
+    cout << "\n";
 
+
+    while(current != end){
+        cout << setw(width);
+        cout << current->first;
+        cout << setw(width);
+        cout << current->second.population;
+        cout << setw(width);
+        cout << current->second.infected;
+        cout << setw(width);
+        cout << current->second.dead;
+        cout << setw(width);
+        cout << current->second.vaccinated;
+        cout << setw(width);
+
+        if(current->second.quarantined == true){ cout << "Qurantined";}
+        else {cout << "No Quarantine";}
+        cout << setw(width);
+
+        cout << current->second.masks;
+        cout << "\n";
 
         current++;
     }
@@ -155,6 +177,8 @@ int main(int argc, char const *argv[])
     regions["Nova"] = populate_region("Nova");
     regions["Zephyr"] = populate_region("Zephyr");
 
+    print();
+
 
     time_point start = high_resolution_clock::now();
     while(true){
@@ -162,7 +186,7 @@ int main(int argc, char const *argv[])
 
         seconds duration = duration_cast<seconds>(now - start);
         
-        if(duration.count() > 10){
+        if(duration.count() > 5){
             start = high_resolution_clock::now();
             spread_infection("Aethria");
             spread_infection("Elysia");
@@ -172,9 +196,8 @@ int main(int argc, char const *argv[])
             if(day >= 180){
                 vaccineRollout();
             }
-
+            print();
             day++;
-
         }
     }
 
