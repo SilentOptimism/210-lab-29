@@ -3,3 +3,33 @@ I created a series of different fictional nations. Populated a text file with fi
 I did some unit testing to fill up a map of region structs which has a list of people.
 
 I than created a program to test out the population of each region. Printing of each region. Infecting of the people in each region.
+
+regions["Aethria"] = populate_region("Aethria");
+regions["Elysia"] = populate_region("Elysia");
+regions["Kaelan"] = populate_region("Kaelan");
+regions["Nova"] = populate_region("Nova");
+regions["Zephyr"] = populate_region("Zephyr");
+
+print();
+
+
+time_point start = high_resolution_clock::now();
+while(true){
+    time_point now = high_resolution_clock::now();
+
+    milliseconds duration = duration_cast<milliseconds>(now - start);
+    
+    if(duration.count() > 500){
+        start = high_resolution_clock::now();
+        spread_infection("Aethria");
+        spread_infection("Elysia");
+        spread_infection("Kaelan");
+        spread_infection("Nova");
+        spread_infection("Zephyr");
+        if(day >= 180){
+            vaccineRollout();
+        }
+        day++;
+        print();
+    }
+}

@@ -131,7 +131,19 @@ void spread_infection(string regionName){
 // A function to simulate vaccine rollout
     // Based on a wealth and popularity vaccine rollout will be different for each region
 void vaccineRollout(){
+    map<string,region>::iterator current = regions.begin();
+    map<string,region>::iterator end = regions.end();
 
+    while(end != current){
+        region place = current->second;
+
+        for(person& individual: place.residents){
+            if(rand()%10<5){
+                individual.vaccinated = true;
+            }
+        }
+        current++;
+    }
 }
 
 // print a regionsStats
@@ -208,7 +220,7 @@ int main(int argc, char const *argv[])
             spread_infection("Kaelan");
             spread_infection("Nova");
             spread_infection("Zephyr");
-            if(day >= 180){
+            if(day >= 10){
                 vaccineRollout();
             }
             day++;
