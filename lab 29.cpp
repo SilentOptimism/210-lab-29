@@ -25,7 +25,7 @@ struct person
     int age;
     health condition;
     bool vaccinated; // if true person is vacinated
-    int timeInfected;
+    int timeInfected = 0;
 };
 
 struct region
@@ -99,17 +99,16 @@ void spread_infection(string regionName){
 
     // Iterates through every individual on the region
     for(person& individual: place.residents){
-        cout << individual.timeInfected << endl;
-        if(individual.vaccinated || (individual.condition == 2)){cout << (individual.condition == Recovered) << endl; return;}
+        if(individual.vaccinated || (individual.condition == Recovered)){return;}
 
         //If a person has been sick for 14 days they will have recovered
-        if(individual.timeInfected >= 14)   {individual.condition = Recovered;}
+        //if(individual.timeInfected >= 14)   {individual.condition = Recovered;}
 
         // Iterates infected time
-        if(individual.condition == 1)    {individual.timeInfected++;}
+        if(individual.condition == Infected)    {individual.timeInfected++;}
 
-        // Determines whether someon is infected
-        if(rand()%50 < 5){ 
+        // If not infected checks if they will become infected
+        else if(rand()%50 < 20){ 
             individual.condition = Infected;
             place.infected++;
         }
@@ -208,12 +207,16 @@ int main(int argc, char const *argv[])
         
         if(duration.count() > 500){
             start = high_resolution_clock::now();
+            spread_infection("Aethria");
+            spread_infection("Elysia");
+            spread_infection("Kaelan");
             spread_infection("Nova");
+            spread_infection("Zephyr");
             if(day >= 90){
                 vaccineRollout();
             }
             day++;
-            //print();
+            print();
         }
     }
 
