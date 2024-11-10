@@ -90,22 +90,20 @@ region populate_region(string regionName){
 }
 
 // A function to start the infection
-    // Each region's population file is open and has their region populated with people
     // An external file inputs information specific to that region
-        // Pop density
-        // Where the infection is started
         // Are people wearing masks
         // Are people quarantining
 void spread_infection(string regionName){
     region& place = regions[regionName];
 
+    // Iterates through every individual on the region
     for(person& individual: place.residents){
+        //If a person has been sick for 14 days they will have recovered
         if(individual.timeInfected >= 14){
-            individual.condition = Recovered;
-        }
-        if(individual.condition == Infected){
-            individual.timeInfected++;
-        }
+            individual.condition = Recovered;}
+
+        // Iteratetes infected time
+        if(individual.condition == Infected)    {individual.timeInfected++;}
 
         if(individual.vaccinated == true){}
         else if(individual.condition == Recovered){
@@ -218,12 +216,12 @@ int main(int argc, char const *argv[])
         
         if(duration.count() > 500){
             start = high_resolution_clock::now();
+            spread_infection("Zephyr");
             spread_infection("Aethria");
             spread_infection("Elysia");
             spread_infection("Kaelan");
             spread_infection("Nova");
-            spread_infection("Zephyr");
-            if(day >= 10){
+            if(day >= 90){
                 vaccineRollout();
             }
             day++;
