@@ -43,7 +43,6 @@ struct region
 map<string, region> regions;
 
 region populate_region(string regionName){
-    srand(time(NULL));
     region location;
 
     ifstream fin;
@@ -96,7 +95,6 @@ region populate_region(string regionName){
         // Are people wearing masks
         // Are people quarantining
 void spread_infection(string regionName){
-    
     region& place = regions[regionName];
 
     // Iterates through every individual on the region
@@ -110,11 +108,13 @@ void spread_infection(string regionName){
         if(individual.condition == Infected)    {individual.timeInfected++;}
 
         // Determines whether someon is infected
-        if(rand()%50 < 1){ 
+        cout << rand()%50 << " ";
+        if(rand()%50 < 5){ 
             individual.condition = Infected;
             place.infected++;
         }
     }
+    cout << endl;
 }
 
 // A function to simulate vaccine rollout
@@ -190,6 +190,7 @@ void print(){
 // Define a main function
 int main(int argc, char const *argv[])
 {
+    srand(time(NULL));
     regions["Aethria"] = populate_region("Aethria");
     regions["Elysia"] = populate_region("Elysia");
     regions["Kaelan"] = populate_region("Kaelan");
@@ -200,21 +201,19 @@ int main(int argc, char const *argv[])
 
 
     time_point start = high_resolution_clock::now();
-    while(true){
+    while(day < 180){
         time_point now = high_resolution_clock::now();
 
         milliseconds duration = duration_cast<milliseconds>(now - start);
         
         if(duration.count() > 500){
             start = high_resolution_clock::now();
-            spread_infection("Kaelan");
             spread_infection("Nova");
-            spread_infection("Zephyr");
             if(day >= 90){
                 vaccineRollout();
             }
             day++;
-            print();
+            //print();
         }
     }
 
