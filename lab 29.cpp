@@ -22,7 +22,7 @@ enum health{
 struct person
 {
     string name;
-    int age;
+    int age = 0;
     health condition;
     bool vaccinated; // if true person is vacinated
     int timeInfected = 0;
@@ -36,6 +36,7 @@ struct region
     int infected = 0;
     int dead = 0;
     int vaccinated = 0;
+    int recovered = 0;
     bool quarantined = 0;
     bool masks = false;
 };
@@ -102,24 +103,28 @@ void spread_infection(string regionName){
     for(person& individual: place.residents){
 
         // If vaccinated, dead, recovered exit cycle        
-        if(individual.vaccinated || (individual.condition >= 2)){return;}
+        if(individual.vaccinated || (individual.condition == Recovered) || (individual.condition == Dead)){
+            return;
+        }
 
         //If a person has been sick for 14 days they will have recovered
-        if(individual.timeInfected >= 14){
+        if(individual.timeInfected >= 3){
             individual.condition = Recovered;
-            place.infected -=1;
+            place.recovered++;
+            place.infected-=1;
         }
 
         // Iterates infected time
         if(individual.condition == Infected){
             individual.timeInfected++;
             if(rand()%100 < lethalityRate){
-                individual.condition = Dead ;
+                individual.condition = Dead;
+                place.infected-=1;
             }
         }
 
         // If not infected checks if they will become infected
-        else if(rand()%50 < 1){ 
+        else if(rand()%50 < 25){ 
             individual.condition = Infected;
             place.infected++;
         }
@@ -165,6 +170,8 @@ void print(){
     cout << setw(width);
     cout << "Vaccinated";
     cout << setw(width);
+    cout << "Recovered";
+    cout << setw(width);
     cout << "Quarantine";
     cout << setw(width);
     cout << "Mask Wearing";
@@ -183,6 +190,8 @@ void print(){
         cout << current->second.dead;
         cout << setw(width);
         cout << current->second.vaccinated;
+        cout << setw(width);
+        cout << current->second.recovered;
         cout << setw(width);
 
         if(current->second.quarantined == true){ cout << "Qurantined";}
@@ -219,6 +228,8 @@ int main(int argc, char const *argv[])
             start = high_resolution_clock::now();
             spread_infection("Aethria");
             spread_infection("Elysia");
+            spread_infection("Kaelan");
+            spread_infection("Nova");
             spread_infection("Zephyr");
             if(day >= 90){
                 vaccineRollout();
