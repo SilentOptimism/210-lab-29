@@ -43,6 +43,8 @@ struct region
 
 map<string, region> regions;
 
+// Populates a region based on its name
+// Looks for a file with the regionsName + Census.txt
 region populate_region(string regionName){
     region location;
 
@@ -95,39 +97,41 @@ region populate_region(string regionName){
         // Are people wearing masks
         // Are people quarantining
 void spread_infection(string regionName){
-    double lethalityRate = 2.5;
+    double lethalityPercentage = 2.5; // Percent chance for infected to die
+    int daysToRecover = 10; // Days needed for infected to recover
+    int chanceToBeInfected = 5; // Percent chance for the health to be infected
+
     region& place = regions[regionName];
 
     // Iterates through every individual on the region
     for(person& individual: place.residents){
 
-        // If vaccinated, dead, recovered exit cycle        
-        if(individual.vaccinated){return;};
-        if(individual.condition == Recovered){return;};
+        if(individual.vaccinated){return;}; // If vaccinated can't fall sick
+        if(individual.condition == Recovered){return;}; // If recoverd from illness can't fall sick
 
 
-        //If a person has been sick for 14 days they will have recovered
-        /*
-        if(individual.timeInfected >= 3){
-            individual.condition = Recovered;
-            place.recovered++;
-            place.infected-=1;
-        }
-        */
-
-
-
+        // Checks if a person is currently sick
         if(individual.condition == Infected){
-            individual.timeInfected++;
+            individual.timeInfected++; // Iterates days sick
 
-            if(rand()%100 < 10){
+            // Checks if a person recovers 
+            if(individual.timeInfected >= daysToRecover){
+                individual.condition = Recovered;
+                place.recovered++;
+                place.infected -= 1;
+                return;
+            }
+
+            // Checks if a person dies
+            if(rand()%100 < lethalityPercentage){
                 individual.condition = Dead;
 
                 place.dead++;
                 place.infected--;
             }
         }
-        // If not infected checks if they will become infected
+
+        // Checks if a Healthy person gets infected
         if(individual.condition == Healthy){
             if(rand()%50 < 25){ 
                 individual.condition = Infected;
@@ -136,6 +140,8 @@ void spread_infection(string regionName){
             }
         }
     }
+
+
 }
 
 // A function to simulate vaccine rollout
@@ -159,7 +165,7 @@ void vaccineRollout(){
     }
 }
 
-// print a regionsStats
+// prints out all the regions stats and the current day 
 void print(){
     int width = 15;
     map<string,region>::iterator current = regions.begin();

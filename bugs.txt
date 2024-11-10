@@ -22,4 +22,8 @@ Bug: printing has large chunks of random white space
 Fixed: newline was created every time infection was spread
 
 Bug: people not recovering after 14 days
+Fixed: spread infection was exiting to quickly
+
+Bug: Some Healthy people were not getting infected when they should
+Fixed: When people died it led to the spread_infection function ending faster than it should have
 
