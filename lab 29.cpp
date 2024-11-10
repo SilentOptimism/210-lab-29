@@ -107,7 +107,7 @@ void spread_infection(string regionName){
         //If a person has been sick for 14 days they will have recovered
         if(individual.timeInfected >= 14){
             individual.condition = Recovered;
-            place.infected-=1;
+            place.infected -=1;
         }
 
         // Iterates infected time
