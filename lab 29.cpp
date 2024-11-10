@@ -104,7 +104,6 @@ void spread_infection(string regionName){
         // If vaccinated, dead, recovered exit cycle        
         if(individual.vaccinated){return;};
         if(individual.condition == Recovered){return;};
-        if(individual.condition == Dead){return;};
 
 
         //If a person has been sick for 14 days they will have recovered
@@ -116,6 +115,8 @@ void spread_infection(string regionName){
         }
         */
 
+
+
         if(individual.condition == Infected){
             individual.timeInfected++;
 
@@ -126,12 +127,13 @@ void spread_infection(string regionName){
                 place.infected--;
             }
         }
-
         // If not infected checks if they will become infected
-        else if(rand()%50 < 25){ 
-            individual.condition = Infected;
-            place.healthy--;
-            place.infected++;
+        if(individual.condition == Healthy){
+            if(rand()%50 < 25){ 
+                individual.condition = Infected;
+                place.healthy--;
+                place.infected++;
+            }
         }
     }
 }
