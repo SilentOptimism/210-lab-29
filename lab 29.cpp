@@ -13,10 +13,10 @@ using namespace chrono;
 int day = 0;
 
 enum health{
-    Healthy, // Hasn't been infected
-    Infected, // Is infected
-    Recovered, // Was infected now has recovered
-    Dead // Sucumb to disease
+    Healthy = 0, // Hasn't been infected
+    Infected = 1, // Is infected
+    Recovered = 2, // Was infected now has recovered
+    Dead = 3// Sucumb to disease
 };
 
 struct person
@@ -99,16 +99,16 @@ void spread_infection(string regionName){
 
     // Iterates through every individual on the region
     for(person& individual: place.residents){
-        if(individual.vaccinated || (individual.condition == Recovered)){ return;}
+        cout << individual.timeInfected << endl;
+        if(individual.vaccinated || (individual.condition == 2)){cout << (individual.condition == Recovered) << endl; return;}
 
         //If a person has been sick for 14 days they will have recovered
         if(individual.timeInfected >= 14)   {individual.condition = Recovered;}
 
         // Iterates infected time
-        if(individual.condition == Infected)    {individual.timeInfected++;}
+        if(individual.condition == 1)    {individual.timeInfected++;}
 
         // Determines whether someon is infected
-        cout << rand()%50 << " ";
         if(rand()%50 < 5){ 
             individual.condition = Infected;
             place.infected++;
