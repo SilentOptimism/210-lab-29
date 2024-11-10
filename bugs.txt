@@ -1,3 +1,4 @@
-People are only dying in the first 2 countries
-
 The first 2 countries are getting infected faster than they should be
+    Actually on the first 2 countries infected population are being iterated at all. The others aren't.
+
+Each country had 1 extra person than they should have
