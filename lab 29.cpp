@@ -32,7 +32,7 @@ struct region
 {
     list<person> residents;
     double GDP;
-    int population = 0;
+    int healthy = 0;
     int infected = 0;
     int dead = 0;
     int vaccinated = 0;
@@ -74,15 +74,14 @@ region populate_region(string regionName){
             resident.name = firstName + lastName;
             resident.age = age;
 
-            if(condition == "Healthy") {resident.condition = Healthy;}
-            if(condition == "Infected") {resident.condition = Infected;}
-            if(condition == "Recovered") {resident.condition = Recovered;}
-            if(condition == "Dead") {resident.condition = Dead;}
+            if(condition == "Healthy") {location.healthy++; resident.condition = Healthy;}
+            if(condition == "Infected") {location.infected++; resident.condition = Infected;}
+            if(condition == "Recovered") {location.recovered++; resident.condition = Recovered;}
+            if(condition == "Dead") {location.dead++; resident.condition = Dead;}
 
             if(vaccinated == "False") {resident.vaccinated = false;}
             else {resident.vaccinated = true;}
 
-            location.population++;
             location.residents.push_back(resident);
         }
     }
@@ -103,29 +102,35 @@ void spread_infection(string regionName){
     for(person& individual: place.residents){
 
         // If vaccinated, dead, recovered exit cycle        
-        if(individual.vaccinated || (individual.condition == Recovered) || (individual.condition == Dead)){
-            return;
-        }
+        if(individual.vaccinated){return;};
+        if(individual.condition == Recovered){return;};
+        if(individual.condition == Dead){return;};
+
 
         //If a person has been sick for 14 days they will have recovered
+        /*
         if(individual.timeInfected >= 3){
             individual.condition = Recovered;
             place.recovered++;
             place.infected-=1;
         }
+        */
 
-        // Iterates infected time
         if(individual.condition == Infected){
             individual.timeInfected++;
-            if(rand()%100 < lethalityRate){
+
+            if(rand()%100 < 10){
                 individual.condition = Dead;
-                place.infected-=1;
+
+                place.dead++;
+                place.infected--;
             }
         }
 
         // If not infected checks if they will become infected
         else if(rand()%50 < 25){ 
             individual.condition = Infected;
+            place.healthy--;
             place.infected++;
         }
     }
@@ -162,7 +167,7 @@ void print(){
     cout << setw(width);
     cout << "Region Name";
     cout << setw(width);
-    cout << "Population";
+    cout << "Healthy";
     cout << setw(width);
     cout << "Infected";
     cout << setw(width);
@@ -183,7 +188,7 @@ void print(){
         cout << setw(width);
         cout << current->first;
         cout << setw(width);
-        cout << current->second.population;
+        cout << current->second.healthy;
         cout << setw(width);
         cout << current->second.infected;
         cout << setw(width);
