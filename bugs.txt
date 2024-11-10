@@ -1,18 +1,25 @@
-The first 2 countries are getting infected faster than they should be
-    Actually on the first 2 countries infected population are being iterated at all. The others aren't.
+Bug: The first 2 countries are getting infected faster than they should be
+    Update: Actually on the first 2 countries infected population are being iterated at all. The others aren't.
 Fixed: the int time infected wasn't initialized so it maxed out the infected and made all the people immune after the first day
 
-Each country had 1 extra person than they should have
+Bug: Each country had 1 extra person than they should have
 Fixed: Was not properly if the file was empty
 
-Quarantine functionality is completely broken
+Bug: Quarantine functionality is completely broken
 
-Mask Wearing is completely broken
+Bug: Mask Wearing is completely broken
 
-Program didn't end after 6 months had passed
+Bug: Program didn't end after 6 months had passed
 Fixed: While loop wasn't condition wasn't based on time passed
 
-More people are getting infected than people that exist
+Bug: More people are getting infected than people that exist
 Fixed: if infected person can't get infected again
 
-Its not possible for all people to get infected
+Bug: Its not possible for all people to get infected
+Fixed: not actually a problem some people simply got immune due to recovering from the virus
+
+Bug: printing has large chunks of random white space
+Fixed: newline was created every time infection was spread
+
+Bug: people not recovering after 14 days
+

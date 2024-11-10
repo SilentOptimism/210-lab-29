@@ -37,7 +37,7 @@ struct region
     int dead = 0;
     int vaccinated = 0;
     bool quarantined = 0;
-    bool masks;
+    bool masks = false;
 };
 
 map<string, region> regions;
@@ -95,25 +95,35 @@ region populate_region(string regionName){
         // Are people wearing masks
         // Are people quarantining
 void spread_infection(string regionName){
+    double lethalityRate = 2.5;
     region& place = regions[regionName];
 
     // Iterates through every individual on the region
     for(person& individual: place.residents){
-        if(individual.vaccinated || (individual.condition == Recovered)){return;}
+
+        // If vaccinated, dead, recovered exit cycle        
+        if(individual.vaccinated || (individual.condition >= 2)){return;}
 
         //If a person has been sick for 14 days they will have recovered
-        //if(individual.timeInfected >= 14)   {individual.condition = Recovered;}
+        if(individual.timeInfected >= 14){
+            individual.condition = Recovered;
+            place.infected-=1;
+        }
 
         // Iterates infected time
-        if(individual.condition == Infected)    {individual.timeInfected++;}
+        if(individual.condition == Infected){
+            individual.timeInfected++;
+            if(rand()%100 < lethalityRate){
+                individual.condition = Dead ;
+            }
+        }
 
         // If not infected checks if they will become infected
-        else if(rand()%50 < 20){ 
+        else if(rand()%50 < 1){ 
             individual.condition = Infected;
             place.infected++;
         }
     }
-    cout << endl;
 }
 
 // A function to simulate vaccine rollout
