@@ -219,8 +219,6 @@ int main(int argc, char const *argv[])
             start = high_resolution_clock::now();
             spread_infection("Aethria");
             spread_infection("Elysia");
-            spread_infection("Kaelan");
-            spread_infection("Nova");
             spread_infection("Zephyr");
             if(day >= 90){
                 vaccineRollout();
