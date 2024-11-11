@@ -97,9 +97,9 @@ region populate_region(string regionName){
         // Are people wearing masks
         // Are people quarantining
 void spread_infection(string regionName){
-    double lethalityPercentage = 2.5; // Percent chance for infected to die
+    double lethalityPercentage = 12.5; // Percent chance for infected to die
     int daysToRecover = 10; // Days needed for infected to recover
-    int chanceToBeInfected = 5; // Percent chance for the health to be infected
+    int chanceToBeInfected = 10; // Percent chance for the health to be infected
 
     region& place = regions[regionName];
 
@@ -115,15 +115,15 @@ void spread_infection(string regionName){
             individual.timeInfected++; // Iterates days sick
 
             // Checks if a person recovers 
-            if(individual.timeInfected >= daysToRecover){
+            if(individual.timeInfected >= 10){
                 individual.condition = Recovered;
                 place.recovered++;
-                place.infected -= 1;
+                place.infected--;
                 return;
             }
 
             // Checks if a person dies
-            if(rand()%100 < lethalityPercentage){
+            if(rand()%100 < 5){
                 individual.condition = Dead;
 
                 place.dead++;
@@ -140,6 +140,8 @@ void spread_infection(string regionName){
             }
         }
     }
+
+    
 
 
 }
