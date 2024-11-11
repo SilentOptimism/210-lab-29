@@ -122,7 +122,7 @@ void spread_infection(string regionName){
         if(individual.condition == Recovered){
             if(rand()%100*2*safetyMultiplier < chanceToBeInfected){ 
                 individual.condition = Infected;
-                place.healthy--;
+                place.recovered--;
                 place.infected++;
             }
         }
@@ -154,6 +154,10 @@ void spread_infection(string regionName){
             }
         }
     }
+    if(place.infected == 0){
+        place.masks = false;
+        place.quarantined = false;
+    }
 
     // If anyone in a region has died people start wearing masks
     if(place.dead > 1){
@@ -177,11 +181,16 @@ void vaccineRollout(){
         region &place = current->second; 
 
         for(person& individual: place.residents){
-            if(rand()%10<5){
-                if(individual.vaccinated == false){
-                    place.vaccinated++;
+            if(individual.condition != Dead){
+                if(rand()%10<5){
+                    if(individual.vaccinated == false){
+                        place.vaccinated++;
+                        if(individual.condition == Healthy){place.healthy--;};
+                        if(individual.condition == Recovered){place.recovered--;};
+                        if(individual.condition == Infected){place.infected--;};
+                    }
+                    individual.vaccinated = true;
                 }
-                individual.vaccinated = true;
             }
         }
         current++;
@@ -245,6 +254,7 @@ void print(){
 // Define a main function
 int main(int argc, char const *argv[])
 {
+    int totalInfected = 1;
     srand(time(NULL));
     regions["Aethria"] = populate_region("Aethria");
     regions["Elysia"] = populate_region("Elysia");
@@ -254,9 +264,8 @@ int main(int argc, char const *argv[])
 
     print();
 
-
     time_point start = high_resolution_clock::now();
-    while(day < 180){
+    while (totalInfected !=0 ){
         time_point now = high_resolution_clock::now();
 
         milliseconds duration = duration_cast<milliseconds>(now - start);
@@ -268,13 +277,20 @@ int main(int argc, char const *argv[])
             spread_infection("Kaelan");
             spread_infection("Nova");
             spread_infection("Zephyr");
+
+            totalInfected = regions["Aethria"].infected + regions["Elysia"].infected + regions["Kaelan"].infected + regions["Nova"].infected + regions["Zephyr"].infected;
             if(day >= 60){
                 vaccineRollout();
             }
             day++;
             print();
+            cout << totalInfected << endl;
         }
+ 
     }
+
+
+    cout << "No infected people remaining" << endl;
 
     return 0;
 }

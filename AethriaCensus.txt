@@ -1,4 +1,4 @@
-Mae O’Neill 19 Healthy False
+Mae O’Neill 19 Infected False
 Marcel Marquez 2 Healthy False
 Milani Hopkins 29 Healthy False
 Ali Butler 75 Healthy False
