@@ -130,4 +130,3 @@ Salem Cain 77 Healthy False
 Benson Crosby 87 Healthy False
 Keily Henderson 19 Healthy False
 Beau Holloway 70 Healthy False
-Beau Holloway 47 Healthy False

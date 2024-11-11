@@ -148,4 +148,3 @@ Kensley Velazquez 48 Healthy False
 Drew Ward 65 Healthy False
 Ariana Bullock 67 Healthy False
 Ben Perkins 95 Healthy False
-Ben Perkins 28 Healthy False

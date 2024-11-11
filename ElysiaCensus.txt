@@ -175,4 +175,3 @@ Forest Stone 95 Healthy False
 Catalina Morton 86 Healthy False
 Roland Avery 16 Healthy False
 Meghan Howard 87 Healthy False
-Meghan Howard 33 Healthy False

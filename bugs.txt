@@ -27,3 +27,5 @@ Fixed: spread infection was exiting to quickly
 Bug: Some Healthy people were not getting infected when they should
 Fixed: When people died it led to the spread_infection function ending faster than it should have
 
+Bug: Names didn't have a space between first and last
+Fixed: Added a space when populating regions with people

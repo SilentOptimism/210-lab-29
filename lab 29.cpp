@@ -24,7 +24,7 @@ struct person
     string name;
     int age = 0;
     health condition;
-    bool vaccinated; // if true person is vacinated
+    bool vaccinated = false; // if true person is vacinated
     int timeInfected = 0;
 };
 
@@ -37,7 +37,7 @@ struct region
     int dead = 0;
     int vaccinated = 0;
     int recovered = 0;
-    bool quarantined = 0;
+    bool quarantined = false;
     bool masks = false;
 };
 
@@ -73,7 +73,7 @@ region populate_region(string regionName){
         fin >> vaccinated;
 
         if(fin){
-            resident.name = firstName + lastName;
+            resident.name = firstName + " " + lastName;
             resident.age = age;
 
             if(condition == "Healthy") {location.healthy++; resident.condition = Healthy;}
@@ -98,34 +98,48 @@ region populate_region(string regionName){
         // Are people quarantining
 void spread_infection(string regionName){
     double lethalityPercentage = 12.5; // Percent chance for infected to die
-    int daysToRecover = 10; // Days needed for infected to recover
-    int chanceToBeInfected = 10; // Percent chance for the health to be infected
+    int daysToRecover = 14; // Days needed for infected to recover
+    int chanceToBeInfected = 4; // Percent chance for the health to be infected
+    int safetyMultiplier = 1;
 
     region& place = regions[regionName];
+
+    if(place.quarantined == true){
+        safetyMultiplier++;
+    }
+    if(place.masks == true){
+        safetyMultiplier++;
+    }
+
+
 
     // Iterates through every individual on the region
     for(person& individual: place.residents){
 
         if(individual.vaccinated){return;}; // If vaccinated can't fall sick
-        if(individual.condition == Recovered){return;}; // If recoverd from illness can't fall sick
 
+        // Checks if a recovered individual has gotten infected
+        if(individual.condition == Recovered){
+            if(rand()%100*2*safetyMultiplier < chanceToBeInfected){ 
+                individual.condition = Infected;
+                place.healthy--;
+                place.infected++;
+            }
+        }
 
         // Checks if a person is currently sick
         if(individual.condition == Infected){
             individual.timeInfected++; // Iterates days sick
 
             // Checks if a person recovers 
-            if(individual.timeInfected >= 10){
+            if(individual.timeInfected >= daysToRecover){
                 individual.condition = Recovered;
                 place.recovered++;
                 place.infected--;
-                return;
             }
-
             // Checks if a person dies
-            if(rand()%100 < 5){
+            else if(rand()%1000 < (lethalityPercentage*10/daysToRecover)){
                 individual.condition = Dead;
-
                 place.dead++;
                 place.infected--;
             }
@@ -133,7 +147,7 @@ void spread_infection(string regionName){
 
         // Checks if a Healthy person gets infected
         if(individual.condition == Healthy){
-            if(rand()%50 < 25){ 
+            if(rand()%100*safetyMultiplier < chanceToBeInfected){ 
                 individual.condition = Infected;
                 place.healthy--;
                 place.infected++;
@@ -141,8 +155,15 @@ void spread_infection(string regionName){
         }
     }
 
-    
+    // If anyone in a region has died people start wearing masks
+    if(place.dead > 1){
+        place.masks = true;
+    }
 
+    // At 5 deaths goes into quarantine
+    if(place.dead > 5){
+        place.quarantined = true;
+    }
 
 }
 
@@ -209,11 +230,12 @@ void print(){
         cout << current->second.recovered;
         cout << setw(width);
 
-        if(current->second.quarantined == true){ cout << "Qurantined";}
-        else {cout << "None";}
+        if(current->second.quarantined == true){ cout << "Lock Down";}
+        else {cout << "Open";}
         cout << setw(width);
 
-        cout << current->second.masks;
+        if(current->second.masks == true){ cout << "Masking";}
+        else {cout << "No Masks";}
         cout << "\n";
 
         current++;
@@ -246,7 +268,7 @@ int main(int argc, char const *argv[])
             spread_infection("Kaelan");
             spread_infection("Nova");
             spread_infection("Zephyr");
-            if(day >= 90){
+            if(day >= 60){
                 vaccineRollout();
             }
             day++;
