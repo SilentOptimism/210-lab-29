@@ -6,8 +6,10 @@ Bug: Each country had 1 extra person than they should have
 Fixed: Was not properly if the file was empty
 
 Bug: Quarantine functionality is completely broken
+Fixed: Accidentally used = instead of == to check if the area is quarantined
 
 Bug: Mask Wearing is completely broken
+Fixed: Accidentally used = instead of == to check if the area is masking 
 
 Bug: Program didn't end after 6 months had passed
 Fixed: While loop wasn't condition wasn't based on time passed

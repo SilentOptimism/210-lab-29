@@ -284,7 +284,6 @@ int main(int argc, char const *argv[])
             }
             day++;
             print();
-            cout << totalInfected << endl;
         }
  
     }
