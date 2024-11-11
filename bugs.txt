@@ -1,0 +1,33 @@
+Bug: The first 2 countries are getting infected faster than they should be
+    Update: Actually on the first 2 countries infected population are being iterated at all. The others aren't.
+Fixed: the int time infected wasn't initialized so it maxed out the infected and made all the people immune after the first day
+
+Bug: Each country had 1 extra person than they should have
+Fixed: Was not properly if the file was empty
+
+Bug: Quarantine functionality is completely broken
+Fixed: Accidentally used = instead of == to check if the area is quarantined
+
+Bug: Mask Wearing is completely broken
+Fixed: Accidentally used = instead of == to check if the area is masking 
+
+Bug: Program didn't end after 6 months had passed
+Fixed: While loop wasn't condition wasn't based on time passed
+
+Bug: More people are getting infected than people that exist
+Fixed: if infected person can't get infected again
+
+Bug: Its not possible for all people to get infected
+Fixed: not actually a problem some people simply got immune due to recovering from the virus
+
+Bug: printing has large chunks of random white space
+Fixed: newline was created every time infection was spread
+
+Bug: people not recovering after 14 days
+Fixed: spread infection was exiting to quickly
+
+Bug: Some Healthy people were not getting infected when they should
+Fixed: When people died it led to the spread_infection function ending faster than it should have
+
+Bug: Names didn't have a space between first and last
+Fixed: Added a space when populating regions with people
